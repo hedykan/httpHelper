@@ -41,9 +41,6 @@ func SetMuxHandle(mux *http.ServeMux, handleArr HandleArr) {
 		if handleArr[i].Url[0] != '/' {
 			handleArr[i].Url = "/" + handleArr[i].Url
 		}
-		if handleArr[i].Url[len(handleArr[i].Url)-1] != '/' {
-			handleArr[i].Url = handleArr[i].Url + "/"
-		}
 		mux.Handle(handleArr[i].Url, handleArr[i].Handler)
 	}
 }

@@ -21,9 +21,9 @@ func (arr HandleArr) AddGroup(parentUrl string) HandleArr {
 	return arr
 }
 
-func (arr HandleArr) AddMiddleward(middleward func(http.Handler) http.Handler) HandleArr {
+func (arr HandleArr) AddMiddleward(middleward Middleware, param ...interface{}) HandleArr {
 	for i := 0; i < len(arr); i++ {
-		arr[i].Handler = middleward(arr[i].Handler)
+		arr[i].Handler = middleward(arr[i].Handler, param)
 	}
 	return arr
 }

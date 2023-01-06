@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-type Middleware func(http.Handler) http.Handler
+type Middleware func(http.Handler, ...interface{}) http.Handler
 
 func methodMiddleware(next http.Handler, method string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +16,7 @@ func methodMiddleware(next http.Handler, method string) http.Handler {
 	})
 }
 
-func crosMiddleward(next http.Handler) http.Handler {
+func crosMiddleward(next http.Handler, param ...interface{}) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		// 解决跨域问题

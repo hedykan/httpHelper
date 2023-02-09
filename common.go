@@ -81,3 +81,16 @@ func resList(list interface{}, count int) map[string]interface{} {
 	res["msg"] = "ok"
 	return res
 }
+
+func GetPageQuery(r *http.Request) (int, int, error) {
+	query := httpHelper.Get(r)
+	page, err := strconv.Atoi(query["page"])
+	if err != nil {
+		return 0, 0, err
+	}
+	size, err := strconv.Atoi(query["page"])
+	if err != nil {
+		return 0, 0, err
+	}
+	return page, size, nil
+}

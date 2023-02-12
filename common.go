@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/thinkeridea/go-extend/exnet"
 )
@@ -83,7 +84,7 @@ func resList(list interface{}, count int) map[string]interface{} {
 }
 
 func GetPageQuery(r *http.Request) (int, int, error) {
-	query := httpHelper.Get(r)
+	query := Get(r)
 	page, err := strconv.Atoi(query["page"])
 	if err != nil {
 		return 0, 0, err

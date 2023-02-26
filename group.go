@@ -12,6 +12,7 @@ type Handle struct {
 
 type HandleArr []Handle
 
+// 新增url组
 func (arr HandleArr) AddGroup(parentUrl string) HandleArr {
 	for i := 0; i < len(arr); i++ {
 		parentUrl = formatUrl(parentUrl)
@@ -21,6 +22,7 @@ func (arr HandleArr) AddGroup(parentUrl string) HandleArr {
 	return arr
 }
 
+// 新增中间件
 func (arr HandleArr) AddMiddleward(middleward Middleware, param ...interface{}) HandleArr {
 	for i := 0; i < len(arr); i++ {
 		arr[i].Handler = middleward(arr[i].Handler, param...)
@@ -28,6 +30,7 @@ func (arr HandleArr) AddMiddleward(middleward Middleware, param ...interface{}) 
 	return arr
 }
 
+// 设置请求方法
 func (arr HandleArr) SetMethod(method string) HandleArr {
 	for i := 0; i < len(arr); i++ {
 		arr[i].Handler = methodMiddleware(arr[i].Handler, method)
@@ -35,8 +38,16 @@ func (arr HandleArr) SetMethod(method string) HandleArr {
 	return arr
 }
 
+// 设置请求复用器
 func SetMuxHandle(mux *http.ServeMux, handleArr HandleArr) {
-	handleArr.AddMiddleward(crosMiddleward)
+	SetMuxHandleAddMiddleware(mux, handleArr, CrosMiddleward)
+}
+
+// 设置请求复用器并添加中间件
+func SetMuxHandleAddMiddleware(mux *http.ServeMux, handleArr HandleArr, middlewareArr ...Middleware) {
+	for _, v := range middlewareArr {
+		handleArr.AddMiddleward(v)
+	}
 	for i := 0; i < len(handleArr); i++ {
 		if handleArr[i].Url[0] != '/' {
 			handleArr[i].Url = "/" + handleArr[i].Url

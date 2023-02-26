@@ -16,7 +16,7 @@ func methodMiddleware(next http.Handler, method string) http.Handler {
 	})
 }
 
-func crosMiddleward(next http.Handler, param ...interface{}) http.Handler {
+func CrosMiddleward(next http.Handler, param ...interface{}) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		// 解决跨域问题

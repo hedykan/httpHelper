@@ -90,7 +90,7 @@ func GetPageQuery(r *http.Request) (int, int, error) {
 	if err != nil {
 		return 0, 0, err
 	}
-	size, err := strconv.Atoi(query["page"])
+	size, err := strconv.Atoi(query["size"])
 	if err != nil {
 		return 0, 0, err
 	}

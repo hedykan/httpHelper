@@ -48,7 +48,7 @@ func Get(r *http.Request) map[string]string {
 	return res
 }
 
-func PostJson(r *http.Request, obj interface{}) {
+func PostJson(r *http.Request, obj interface{}) error {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
@@ -58,8 +58,9 @@ func PostJson(r *http.Request, obj interface{}) {
 	err = json.Unmarshal(body, obj)
 	// err := json.NewDecoder(r.Body).Decode(obj) // 会导致r.Body读取完后无法重新写入
 	if err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
 
 func res(data interface{}) map[string]interface{} {

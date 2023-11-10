@@ -36,7 +36,7 @@ func (arr HandleArr) SetMethod(method string) HandleArr {
 }
 
 func SetMuxHandle(mux *http.ServeMux, handleArr HandleArr) {
-	handleArr.AddMiddleward(crosMiddleward)
+	handleArr.AddMiddleward(logMiddleware).AddMiddleward(crosMiddleward)
 	for i := 0; i < len(handleArr); i++ {
 		if handleArr[i].Url[0] != '/' {
 			handleArr[i].Url = "/" + handleArr[i].Url

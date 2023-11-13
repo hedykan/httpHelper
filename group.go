@@ -40,14 +40,7 @@ func (arr HandleArr) SetMethod(method string) HandleArr {
 
 // 设置请求复用器
 func SetMuxHandle(mux *http.ServeMux, handleArr HandleArr) {
-	SetMuxHandleAddMiddleware(mux, handleArr, CrosMiddleward)
-}
-
-// 设置请求复用器并添加中间件
-func SetMuxHandleAddMiddleware(mux *http.ServeMux, handleArr HandleArr, middlewareArr ...Middleware) {
-	for _, v := range middlewareArr {
-		handleArr.AddMiddleward(v)
-	}
+	handleArr.AddMiddleward(logMiddleware).AddMiddleward(crosMiddleward)
 	for i := 0; i < len(handleArr); i++ {
 		if handleArr[i].Url[0] != '/' {
 			handleArr[i].Url = "/" + handleArr[i].Url

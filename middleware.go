@@ -1,6 +1,7 @@
 package httpHelper
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -16,7 +17,7 @@ func methodMiddleware(next http.Handler, method string) http.Handler {
 	})
 }
 
-func CrosMiddleward(next http.Handler, param ...interface{}) http.Handler {
+func crosMiddleward(next http.Handler, param ...interface{}) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		// 解决跨域问题
@@ -31,6 +32,13 @@ func CrosMiddleward(next http.Handler, param ...interface{}) http.Handler {
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+func logMiddleware(next http.Handler, param ...interface{}) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.URL, r.Body)
 		next.ServeHTTP(w, r)
 	})
 }

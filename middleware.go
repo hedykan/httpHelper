@@ -38,7 +38,7 @@ func crosMiddleward(next http.Handler, param ...interface{}) http.Handler {
 
 func logMiddleware(next http.Handler, param ...interface{}) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println(r.URL, r.Body)
+		log.Println("Method:", r.Method, "Url:", r.URL, "Host:", r.Host)
 		next.ServeHTTP(w, r)
 	})
 }
